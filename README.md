@@ -19,16 +19,16 @@
 ## Setup 
 ### Install and setup virutalenv 
 
-` pip install virtaulenv `
-` virtualenv flask_env `
+- ` pip install virtaulenv `
+- ` virtualenv flask_env `
 
 ### Activate virtaul environment/Intial Setup
 
-`flask_env\Scripts\Activate`
-`pip install -r requirements.txt`
+- `flask_env\Scripts\Activate`
+- `pip install -r requirements.txt`
 
 ### Run app 
 
-`flask_env\Scripts\Activate`
-`SET FLASK_APP=app.py`
-`flask run --with-threads`
+- `flask_env\Scripts\Activate`
+- `SET FLASK_APP=app.py`
+- `flask run --with-threads`
