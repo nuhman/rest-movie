@@ -28,3 +28,33 @@
 - `flask_env\Scripts\Activate`
 - `SET FLASK_APP=app.py`
 - `flask run --with-threads`
+
+
+## Examples
+ 
+### Get movie list from the database:
+
+```
+GET: http://localhost:5000/movies/list/22142
+
+Returns: 
+[
+    {
+        "genres": [
+            "Adventure",
+            "Animation",
+            "Children",
+            "Comedy",
+            "Fantasy"
+        ],
+        "id": "5aceeeb235a49d14cc0679d8",
+        "image": "http://url/file.png",
+        "imdbId": "0114709",
+        "movieId": "1",
+        "title": "Toy Story (1995)",
+        "tmdbId": "862"
+    },
+ ]
+```
+
+ 
