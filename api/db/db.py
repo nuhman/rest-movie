@@ -1,44 +1,51 @@
-from api.db.firebase import database
+from api.db.mongo import movie_collection
+from api.db.mongo import user_collection
+from bson.json_util import dumps
+from bson.objectid import ObjectId
+import json
+
+def ObjectIDConverter(item):
+  if(item is None):
+    return None
+  objectId = item.pop("_id",None)
+  if(objectId):
+    if(isinstance(objectId, (ObjectId,))):
+      oid = str(objectId)
+    else:
+      oid = objectId.pop("$oid")
+    item["id"] = oid
+    return item
+  return None
+
+def JSONEncoder(cursor):
+  data = []
+  for row in json.loads(dumps(cursor)):
+    data.append(row)
+  return data
+    
 
 class MovieDatabase():
   def get_movies(self, user):
-    try:
-      data = database.child('movies').get().val()
-    except:
-      data = {}
-    return data
+    movie_list = movie_collection.find({})
+    return JSONEncoder(movie_list)
 
   def set_movies(self, movies_list):
-      database.child('movies').set(movies_list)
+      movie_collection.insert_many(movies_list)
 
 class UserDatabase():
   def create_user(self, user):
     if(not self.get_user_by_google(user['googleId'])):
-      data = database.child('users').push(user)
-      data = {"id": data["name"]}
-      data.update(user)
-      return data
+      inserted_id = user_collection.insert_one(user).inserted_id
+      user = ObjectIDConverter(user)
+      return user
     return {};
   
   def get_user_by_google(self, googleId):
-    data = database.child('users').order_by_child('googleId').equal_to(googleId).get() 
-    if(data):
-      for d in data.each():
-        obj = {}
-        obj.update(d.val())
-        obj['id'] = d.key()
-        return obj;
-    return {}
+    return ObjectIDConverter(user_collection.find_one({"googleId":googleId})) or {}
+
 
   def get_user_by_id(self, id):
-    data = database.child('users').child(id).get()
-    data_with_id = {}
-    if(data.val()):
-      data_with_id.update({'id':data.key()})
-      for d in data.each():
-        data_with_id.update({d.key():d.val()})
-    return data_with_id
-
+    return ObjectIDConverter(user_collection.find_one({"_id": ObjectId(id)})) or {}
 
 if(__name__ == '__main__'):
   pass
