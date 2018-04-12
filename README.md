@@ -9,7 +9,7 @@
         - mongo.py
             - mongo setup files
     - ##### engine
-        core recommendation code
+        - core recommendation code
 - app.py
     - entry point for the app 
 
