@@ -7,7 +7,7 @@
             provide abstraction layer around CURD operation performed on the database
         - mongo.py
             mongo setup files
-    -   ##### engine
+    - ##### engine
         core recommendation code
 - app.py
     entry point for the app 
