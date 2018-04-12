@@ -20,7 +20,6 @@ def defaultMovies(user):
 @app.route('/users/create/', methods=['POST'])
 def create_user():
   user = request.json
-  print(user)
   user = user_db.create_user(user)
   return jsonify(user)
 

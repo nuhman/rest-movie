@@ -1,7 +1,8 @@
 import os
 from pymongo import MongoClient
 
-databaseUrl = 'mongodb://{}:{}@ds243059.mlab.com:43059/movie_store'.format(os.getenv('MONGO_ADMIN'),os.getenv('MONGO_PASSWORD'))
+databaseUrl = 'mongodb://{}:{}@ds243059.mlab.com:43059/movie_store' \
+                  .format(os.getenv('MONGO_ADMIN'),os.getenv('MONGO_PASSWORD'))
 
 client = MongoClient(databaseUrl)
 
