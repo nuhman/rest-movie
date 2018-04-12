@@ -1,10 +1,10 @@
 # REST API for movie-recommendation
 ## Overview
 
-- ##### API
-    - ##### db 
+- #### API
+    - #### db 
         - provide abstraction layer around CURD operation performed on the database
-    - ##### engine
+    - #### engine
         - core recommendation code
 - app.py
   - entry point for the app 
