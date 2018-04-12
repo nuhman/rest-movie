@@ -11,7 +11,7 @@
     - ##### engine
         core recommendation code
 - app.py
-    entry point for the app 
+    - entry point for the app 
 
 
 ## Setup 
