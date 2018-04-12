@@ -3,10 +3,11 @@
 
 - ##### API
     - ##### db 
+        - provide abstraction layer around CURD operation performed on the database
         - db.py
-            provide abstraction layer around CURD operation performed on the database
+            - CURD operations
         - mongo.py
-            mongo setup files
+            - mongo setup files
     - ##### engine
         core recommendation code
 - app.py
