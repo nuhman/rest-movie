@@ -12,7 +12,7 @@
         - core recommendation code
 - app.py
   - entry point for the app 
--admin.py 
+- admin.py 
   - perform operations on the database directly
 
 
