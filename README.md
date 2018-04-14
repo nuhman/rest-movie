@@ -103,9 +103,9 @@ Response:
   "thumbnail": "$user_profile_image_url",
   "username": "$username"
 }
-'''
+```
 ### Get user by user-id 
-'''
+```
 POST: http://localhost:5000/users/get-id
 JSON-payload:
 {
