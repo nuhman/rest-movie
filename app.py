@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv(verbose=True)
 
 from api.engine.movies import get_movies
-from api.db.db import UserDatabase
+from api.db.user_database import UserDatabase
 import os 
 
 user_db = UserDatabase()
@@ -15,7 +15,8 @@ CORS(app)
 
 @app.route('/movies/list/<user>')
 def defaultMovies(user):
-  return jsonify(get_movies(user))
+  movies_list = get_movies(user)
+  return jsonify(movies_list)
 
 @app.route('/users/create/', methods=['POST'])
 def create_user():

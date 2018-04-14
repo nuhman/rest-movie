@@ -7,8 +7,8 @@ import click
 from dotenv import load_dotenv
 load_dotenv(verbose=True)
 
-from api.db.db import MovieDatabase
-from api.db.db import RatingDatabase
+from api.db.movie_database import MovieDatabase
+from api.db.rating_database import RatingDatabase
 
 movie_db = MovieDatabase()
 ratings_db = RatingDatabase()
@@ -66,8 +66,7 @@ def upload_movies_list(READ_ROWS):
       link['image'] = get_image_url(link['imdbId'])
       movies_list.append(link)
 
-  print(movies_list)
-  # movie_db.set_movies(movies_list)
+  movie_db.set_movies(movies_list)
 
 def upload_movies_rating(READ_ROWS):
   ratings = read_csv('ratings', READ_ROWS)
@@ -81,8 +80,7 @@ def upload_movies_rating(READ_ROWS):
                                 rating['movieId']] = float(rating['rating'])
 
   for user_id, rating_list in movies_rating_list.items():
-    print(rating_list)
-    # ratings_db.push_new_rating_batch(str(ObjectId()), rating_list)
+    ratings_db.push_new_rating_batch(str(ObjectId()), rating_list)
 
 
 @click.group()

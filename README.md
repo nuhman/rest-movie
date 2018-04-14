@@ -2,14 +2,11 @@
 ## Overview
 
 - #### API
-    - #### db 
-        - provide abstraction layer around CURD operation performed on the database
-    - #### engine
-        - core recommendation code
-- app.py
-  - entry point for the app 
-- admin.py 
-  - perform operations on the database directly
+    - #### config
+    - #### db  provide abstraction layer around CURD operation performed on the database
+    - #### engine core recommendation code
+- app.py  entry point for the app 
+- admin.py  perform operations on the database directly
 
 
 ## Setup 
@@ -37,13 +34,13 @@
 #### Uploading movies list to database 
 
 ```
-python admin --upload movies_list [NO_OF_ROWS_TO_UPLOAD]
+python admin.py --upload movies_list [NO_OF_ROWS_TO_UPLOAD]
 ```
 
 #### Uploading movies rating to database 
 
 ```
-python admin --upload movies_rating [NO_OF_ROWS_TO_UPLOAD]
+python admin.py --upload movies_rating [NO_OF_ROWS_TO_UPLOAD]
 ```
  
 ### REST API
@@ -52,7 +49,7 @@ python admin --upload movies_rating [NO_OF_ROWS_TO_UPLOAD]
 ```
 GET: http://localhost:5000/movies/list/22142
 
-Returns: 
+Response: 
 [
     {
         "genres": [
