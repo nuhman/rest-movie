@@ -30,8 +30,23 @@
 - `flask run --with-threads`
 
 
-## Examples
+## Usage
+
+### Admin 
+
+#### Uploading movies list to database 
+
+```
+python admin --upload movies_list [NO_OF_ROWS_TO_UPLOAD]
+```
+
+#### Uploading movies rating to database 
+
+```
+python admin --upload movies_rating [NO_OF_ROWS_TO_UPLOAD]
+```
  
+### REST API
 ### Get movie list from the database:
 
 ```
@@ -57,4 +72,6 @@ Returns:
  ]
 ```
 
- 
+## other resources
+
+ [click documentation](http://click.pocoo.org/5/)
