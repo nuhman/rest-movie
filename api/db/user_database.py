@@ -22,7 +22,7 @@ class UserDatabase():
         "username": "$username"
       }
 
-    Returns:
+    Returns:git 
     ----------------------------------------------
     dict
       {
