@@ -69,6 +69,60 @@ Response:
  ]
 ```
 
+### Create new user 
+```
+POST: http://localhost:5000/users/create
+JSON-payload: 
+{
+  "googleId": "$googleId",
+  "thumbnail" : "$user_profile_image_url",
+  "username": "$username"
+}
+
+Response:
+{
+  "googleId": "$googleId",
+  "id": "$objectId",
+  "thumbnail": "$user_profile_image_url",
+  "username": "$username"
+}
+
+```
+
+### Get user by google-id
+```
+POST: http://localhost:5000/users/get-google
+JSON-payload:
+{  
+  "googleId": "$googleId"
+}
+
+Response:
+{
+  "googleId": "$googleId",
+  "id": "$objectId",
+  "thumbnail": "$user_profile_image_url",
+  "username": "$username"
+}
+'''
+### Get user by user-id 
+'''
+POST: http://localhost:5000/users/get-id
+JSON-payload:
+{
+  "id": "$objectId"
+}
+
+Response:
+{
+  "googleId": "$googleId",
+  "id": "$objectId",
+  "thumbnail": "$user_profile_image_url",
+  "username": "$username"
+}
+```
+
+
 ## other resources
 
  [click documentation](http://click.pocoo.org/5/)
