@@ -21,10 +21,10 @@ def resolve_csv(path):
 def get_image_url(imdb_id):
   r = requests.get(generate_links_imdb(imdb_id))
   soup = BeautifulSoup(r.content, 'html.parser')
-  print(soup)
-  poster = soup.find('div', attrs={'class':'poster'})
+  poster = soup.find('div', attrs={'class': 'poster'})
   soup = BeautifulSoup(str(poster), 'html.parser')
   return soup.find('img').get('src')
+
 
 def generate_links_imdb(imdb_id):
   if(type(imdb_id) == 'int'):
@@ -33,39 +33,48 @@ def generate_links_imdb(imdb_id):
 
 
 def read_csv(file, no_of_rows=-1):
-  file = resolve_csv(file)
-  with open(file, 'r', encoding='utf-8') as rows:
+  resolved_file = resolve_csv(file)
+  with open(resolved_file, 'r', encoding='utf-8') as rows:
       index = 0
       data = []
       heading = rows.readline().replace('\n', '').split(',')
-
-      for row in rows:
-        row = row.replace('\n', '')
-        cols = row.split(',')
-        obj = {}
-        for col, title in zip(cols, heading):
-          if('|' in col):
-            col = col.split('|')
-          obj.update({title: col})
-        data.append(obj)
-        index += 1
-        if(index == no_of_rows):
-          break
+      progressbar_length = no_of_rows
+      if no_of_rows is -1:
+        progressbar_length = None
+      with click.progressbar(rows, 
+                             label='parsing %s.csv' % file, 
+                             length = progressbar_length) as bars:
+        for row in bars:
+          row = row.replace('\n', '')
+          cols = row.split(',')
+          obj = {}
+          for col, title in zip(cols, heading):
+            if('|' in col):
+              col = col.split('|')
+            obj.update({title: col})
+          data.append(obj)
+          index += 1
+          if(index == no_of_rows):
+            break
 
       return data
 
 
 def upload_movies_list(READ_ROWS):
-  generes = read_csv('movies', READ_ROWS)
+  movies = read_csv('movies', READ_ROWS)
   links = read_csv('links', READ_ROWS)
 
   movies_list = []
-  for link, genere in zip(links, generes):
-    if(link['movieId'] == genere['movieId']):
-      link.update(genere)
-      link['image'] = get_image_url(link['imdbId'])
-      movies_list.append(link)
+  with click.progressbar(zip(links, movies),
+                         label='paking movies list',
+                         length=len(movies)) as bars:
+    for link, movie in bars:
+      if(link['movieId'] == movie['movieId']):
+        link.update(movie)
+        link['image'] = get_image_url(link['imdbId'])
+        movies_list.append(link)
 
+  click.echo(click.style('uploading movies list'))
   movie_db.set_movies(movies_list)
 
 def upload_movies_rating(READ_ROWS):
@@ -73,14 +82,19 @@ def upload_movies_rating(READ_ROWS):
 
   movies_rating_list = {}
 
-  for rating in ratings:
-    user_id = rating['userId']
-    movies_rating_list.setdefault(user_id, {})
-    movies_rating_list[user_id]['ratings.' +
-                                rating['movieId']] = float(rating['rating'])
+  with click.progressbar(ratings,
+                         label='packing ratings:') as bars:
+    for rating in bars:
+      user_id = rating['userId']
+      movies_rating_list.setdefault(user_id, {})
+      movies_rating_list[user_id]['ratings.' +
+                                  rating['movieId']] = float(rating['rating'])
 
-  for user_id, rating_list in movies_rating_list.items():
-    ratings_db.push_new_rating_batch(str(ObjectId()), rating_list)
+  with click.progressbar(movies_rating_list.items(),
+                         label='uploading user ratings:'
+                         ) as bars:
+    for user_id, rating_list in bars:
+      ratings_db.push_new_rating_batch(str(ObjectId()), rating_list)
 
 
 @click.group()
