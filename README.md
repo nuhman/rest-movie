@@ -3,7 +3,7 @@
 
 - #### API
     - #### config
-    - #### db  provide abstraction layer around CURD operation performed on the database
+    - #### db provide abstraction layer around CURD operation performed on the database
     - #### engine core recommendation code
 - app.py  entry point for the app 
 - admin.py  perform operations on the database directly
