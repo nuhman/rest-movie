@@ -1,8 +1,6 @@
-from bson.json_util import dumps
 from bson.objectid import ObjectId
-import json
 from api.config.mongo import (
-  movie_collection,
+  user_collection,
   object_id_converter,
   JSONEncoder
 )

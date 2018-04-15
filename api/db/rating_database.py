@@ -1,10 +1,8 @@
-from bson.json_util import dumps
 from bson.objectid import ObjectId
-import json
 from api.config.mongo import (
-  movie_collection,
-  object_id_converter,
-  JSONEncoder
+    user_rating_collection,
+    object_id_converter,
+    JSONEncoder
 )
 
 
@@ -52,6 +50,51 @@ class RatingDatabase():
     user_rating_collection.update_many({'_id': ObjectId(user_id)},
                                        {'$set': movie_ratings_list}, upsert=True)
 
+  def get_rating_by_user_id(self, user_id):
+    '''
+    Get all the movie rating of the user by user_id 
+    
+    Parameters:
+    -----------------------------------------------
+    user_id: String
+      $user_ObjectId
+
+    Returns:
+    -----------------------------------------------
+    dict
+      {'6': 3.0, ... } // {movie_id: movie_rating, ...} 
+    '''
+    user_rating_document = user_rating_collection.find_one({'_id': ObjectId(user_id)})
+    
+    user_rating = object_id_converter(user_rating_document)
+    return user_rating['ratings']
+
+  def get_all_rating(self):
+    '''
+    Get all user movie ratings
+
+    Parameters:
+    ------------------------------------------------
+
+    Returns:
+    ------------------------------------------------
+    dict
+      {
+        'ratings': 
+        {
+          '6': 3.0, // movie_id: movie_rating
+          '21': 4.0,
+          ...
+        }, 
+        'id': $user_ObjectId
+      }
+    '''
+    user_rating_documents = user_rating_collection.find({})
+
+    user_ratings = JSONEncoder(user_rating_documents, True)
+    return user_ratings
+    
+    
 
 if(__name__ == '__main__'):
   pass
