@@ -1,4 +1,4 @@
-flask==0.12.2
+flask==1.0
 flask_cors==3.0.3
 bs4==0.0.1
 python-dotenv==0.8.2
